@@ -39,7 +39,6 @@ Shader "Transparent/Refractive"
 			AlphaTest Greater 0
 
 			CGPROGRAM
-			#pragma target 3.0
 			#pragma exclude_renderers gles
 			#pragma vertex vert
 			#pragma surface surf PPL alpha

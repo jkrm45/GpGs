@@ -46,7 +46,7 @@ MonoBehaviour:
   material: {fileID: 2100000, guid: 7f2998d77d302734ca31951af9793ac0, type: 2}
   mSprites:
   - name: 1lv helmet
-    x: 230
+    x: 358
     y: 20
     width: 72
     height: 96
@@ -59,8 +59,8 @@ MonoBehaviour:
     paddingTop: 3
     paddingBottom: 1
   - name: 2lv helmet
-    x: 2104
-    y: 149
+    x: 501
+    y: 22
     width: 70
     height: 94
     borderLeft: 0
@@ -72,7 +72,7 @@ MonoBehaviour:
     paddingTop: 4
     paddingBottom: 2
   - name: 3lv helmet
-    x: 336
+    x: 275
     y: 23
     width: 81
     height: 93
@@ -98,7 +98,7 @@ MonoBehaviour:
     paddingTop: 40
     paddingBottom: 40
   - name: AllAxis_Outline
-    x: 2412
+    x: 1970
     y: 1536
     width: 512
     height: 512
@@ -111,7 +111,7 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: arrow
-    x: 86
+    x: 627
     y: 19
     width: 49
     height: 97
@@ -124,7 +124,7 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 3
   - name: bandage
-    x: 137
+    x: 96
     y: 22
     width: 91
     height: 94
@@ -137,7 +137,7 @@ MonoBehaviour:
     paddingTop: 3
     paddingBottom: 3
   - name: beer
-    x: 0
+    x: 189
     y: 20
     width: 84
     height: 96
@@ -150,8 +150,8 @@ MonoBehaviour:
     paddingTop: 1
     paddingBottom: 3
   - name: blue1
-    x: 2209
-    y: 15
+    x: 2451
+    y: 277
     width: 220
     height: 229
     borderLeft: 0
@@ -163,8 +163,8 @@ MonoBehaviour:
     paddingTop: 34
     paddingBottom: 27
   - name: fire staff
-    x: 1970
-    y: 143
+    x: 678
+    y: 16
     width: 40
     height: 100
     borderLeft: 0
@@ -176,8 +176,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: green
-    x: 2450
-    y: 4
+    x: 2213
+    y: 260
     width: 236
     height: 246
     borderLeft: 0
@@ -189,8 +189,8 @@ MonoBehaviour:
     paddingTop: 22
     paddingBottom: 22
   - name: green2
-    x: 1970
-    y: 245
+    x: 2211
+    y: 2
     width: 237
     height: 250
     borderLeft: 0
@@ -202,8 +202,8 @@ MonoBehaviour:
     paddingTop: 20
     paddingBottom: 20
   - name: ice staff
-    x: 2135
-    y: 52
+    x: 720
+    y: 21
     width: 42
     height: 95
     borderLeft: 0
@@ -214,9 +214,22 @@ MonoBehaviour:
     paddingRight: 30
     paddingTop: 3
     paddingBottom: 2
+  - name: Knife
+    x: 2484
+    y: 1211
+    width: 106
+    height: 312
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
   - name: lightning staff
-    x: 2066
-    y: 148
+    x: 764
+    y: 21
     width: 36
     height: 95
     borderLeft: 0
@@ -228,7 +241,7 @@ MonoBehaviour:
     paddingTop: 2
     paddingBottom: 3
   - name: long sword
-    x: 304
+    x: 802
     y: 18
     width: 30
     height: 98
@@ -241,8 +254,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 2
   - name: meat
-    x: 2039
-    y: 47
+    x: 0
+    y: 22
     width: 94
     height: 94
     borderLeft: 0
@@ -254,8 +267,8 @@ MonoBehaviour:
     paddingTop: 3
     paddingBottom: 3
   - name: orang
-    x: 2484
-    y: 1282
+    x: 1970
+    y: 254
     width: 241
     height: 252
     borderLeft: 0
@@ -267,8 +280,8 @@ MonoBehaviour:
     paddingTop: 19
     paddingBottom: 19
   - name: poison arrow
-    x: 2012
-    y: 143
+    x: 573
+    y: 16
     width: 52
     height: 100
     borderLeft: 0
@@ -280,8 +293,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: Red1
-    x: 2209
-    y: 246
+    x: 1970
+    y: 3
     width: 239
     height: 249
     borderLeft: 0
@@ -294,7 +307,7 @@ MonoBehaviour:
     paddingBottom: 19
   - name: sircle
     x: 1970
-    y: 497
+    y: 1022
     width: 512
     height: 512
     borderLeft: 0
@@ -307,7 +320,7 @@ MonoBehaviour:
     paddingBottom: 0
   - name: sircle2
     x: 1970
-    y: 1011
+    y: 508
     width: 512
     height: 512
     borderLeft: 0
@@ -319,8 +332,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: wine
-    x: 1970
-    y: 41
+    x: 432
+    y: 16
     width: 67
     height: 100
     borderLeft: 0
@@ -333,7 +346,7 @@ MonoBehaviour:
     paddingBottom: 0
   - name: yellow
     x: 2450
-    y: 252
+    y: 15
     width: 233
     height: 243
     borderLeft: 0
@@ -345,7 +358,7 @@ MonoBehaviour:
     paddingTop: 22
     paddingBottom: 25
   - name: "\uC90D\uAE30"
-    x: 1970
+    x: 2484
     y: 1525
     width: 440
     height: 523

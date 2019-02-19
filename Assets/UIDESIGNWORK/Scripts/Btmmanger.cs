@@ -22,7 +22,8 @@ public class Btmmanger : MonoBehaviour
     {
         Music = GameObject.FindGameObjectWithTag("Music").GetComponent<AudioSource>();
         EffectMusic = GameObject.FindGameObjectWithTag("IngameSound").GetComponent<AudioSource>();
-        PlayerSound = GameObject.Find("Player").GetComponent<AudioSource>();
+       
+          
 
         Sound.value = PlayerPrefs.GetFloat("SaveSound");
         EffectSound.value = PlayerPrefs.GetFloat("SaveEffectSound");
@@ -31,17 +32,22 @@ public class Btmmanger : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Scorepoint.text = LoginManager.Instance.UserScore.ToString();
-        KillLabel.text = LoginManager.Instance.UserKillnum.ToString();
+        
         if (Application.loadedLevelName == "Menu")
         {
             Music.volume = Sound.value;
+            Scorepoint.text = LoginManager.Instance.UserScore.ToString();
+            KillLabel.text = LoginManager.Instance.UserKillnum.ToString();
         }
         if (Application.loadedLevelName == "IngameUI")
         {
             Music.volume = Sound.value;
             EffectMusic.volume = EffectSound.value;
-            PlayerSound.volume = EffectSound.value;
+            if (PlayerSound != null)
+            {
+                PlayerSound.volume = EffectSound.value;
+            }
+          
         }
     }
     public void MyscoreOn()
@@ -93,6 +99,7 @@ public class Btmmanger : MonoBehaviour
 
     public void GoMenu()
     {
+        PhotonNetwork.Disconnect();
         Application.LoadLevel(1);
 
     }

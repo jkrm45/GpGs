@@ -4,14 +4,28 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Posion
-  - Ice
-  - FxTemporaire
+  - Map
+  - hellitem1
+  - hellitem2
+  - drink1
+  - drink2
+  - helmet1
+  - helmet2
+  - helmet3
+  - weapon1
+  - weapon2
+  - weapon3
+  - weapon4
+  - weapon5
+  - damagezone
+  - Beam
   - Fire
-  - Lightning
-  - arrow
-  - Music
-  - IngameSound
+  - Item
+  - Enemy
+  - Enemybullet
+  - Playerbullet
+  - item
+  - Ring
   layers:
   - Default
   - TransparentFX

@@ -23,6 +23,7 @@ public class LoginManager : MonoBehaviour
     public string UserUpdateURL;
     public string UserInformationDelURL;
     public string downloadURL;
+
     private void Awake()
     {
         _instance = this;
@@ -38,18 +39,17 @@ public class LoginManager : MonoBehaviour
         PlayGamesPlatform.Activate();
 
 
-        //StartCoroutine(LoginSytem());
-        StartCoroutine(UserChecking());
+        StartCoroutine(LoginSytem());
+        //StartCoroutine(UserChecking());
     }
 
     void Update()
     {
-      
-     
+
     }
 
 
-   
+
 
 
     IEnumerator LoginSytem()
@@ -63,9 +63,9 @@ public class LoginManager : MonoBehaviour
                 PlayerPrefs.SetString("ID", Social.localUser.userName);
                 ID = PlayerPrefs.GetString("ID");
 
-
+                StartCoroutine(Next());
                 StartCoroutine(UserChecking());
-                //StartCoroutine(Next()); //에셋버들
+                //에셋버들
                 //서버로 아이뒤보내고 없으면 데이터 생성 있으면 정보값찾기
 
 
@@ -87,10 +87,19 @@ public class LoginManager : MonoBehaviour
         yield return ww;
         if (ww.isDone)
         {
-         
-            File.WriteAllBytes(Path.Combine(Application.persistentDataPath, "itemlist"), ww.bytes);
+#if UNITY_ANDROID
+            {
+                File.WriteAllBytes(Path.Combine(Application.persistentDataPath, "itemlist"), ww.bytes);
+            }
+#endif
+#if UNITY_EDITOR
+            {
+                File.WriteAllBytes(Path.Combine(Application.streamingAssetsPath, "itemlist"), ww.bytes);
+            }
+#endif
+
             //string myLoadedAssetBundle2 = File.ReadAllText(Path.Combine(Application.persistentDataPath, "itemlist"));
- 
+
 
 
         }
@@ -99,8 +108,8 @@ public class LoginManager : MonoBehaviour
     IEnumerator UserChecking()  //아이뒤확인
     {
         WWWForm form = new WWWForm();
-        form.AddField("USERNAME", ID);
-        //form.AddField("USERNAME", PlayerPrefs.GetString("ID"));
+        //form.AddField("USERNAME",ID);
+        form.AddField("USERNAME", PlayerPrefs.GetString("ID"));
 
         WWW www = new WWW(UserCheckURL, form);
         yield return www;
@@ -119,17 +128,19 @@ public class LoginManager : MonoBehaviour
                 UserScore = (int)N["USERSCORE"];
                 UserKillnum = (int)N["USERKILLNUM"];
                 print("아이뒤있음");
+              
                 Application.LoadLevel(1);
             }
         }
 
     }
+   
 
     IEnumerator MakeID()  //아이뒤생성
     {
         WWWForm form = new WWWForm();
-        form.AddField("USERNAME", ID);
-        //form.AddField("USERNAME", PlayerPrefs.GetString("ID"));
+        //form.AddField("USERNAME",ID);
+        form.AddField("USERNAME", PlayerPrefs.GetString("ID"));
 
         WWW www = new WWW(UserMakeURL, form);
         yield return www;
@@ -147,17 +158,27 @@ public class LoginManager : MonoBehaviour
 
     }
 
+    public void InfoUpdata()
+    {
+        StartCoroutine(UpdateInformation());
+    }
 
-    IEnumerator UpdaeInformation()  //업데이트
+     IEnumerator UpdateInformation()  //업데이트
     {
         WWWForm form = new WWWForm();
-        form.AddField("USERID", PlayerPrefs.GetString("ID"));
+        print(ID);
+        //form.AddField("USERID", PlayerPrefs.GetString("ID"));
+        form.AddField("USERNAME",ID);
         form.AddField("USERSCORE", UserScore);
+        form.AddField("USERKILLNUM",UserKillnum);
+     
+     
 
         WWW www = new WWW(UserUpdateURL, form);
         yield return www;
         if (www.isDone)
         {
+            print("보냇다");
 
         }
 
