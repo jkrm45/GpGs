@@ -55,7 +55,7 @@ public class Playercnt : MonoBehaviour
     public GameObject win;
     public GameObject Lose;
     public bool hitbool=false;
-    public float hittedtimecool;
+    public float hittedtimecool = 0.5f;
     public float hittedaddtime;
 
     //public AudioSource ActionController; // 행동소리 컨트롤러
@@ -117,7 +117,12 @@ public class Playercnt : MonoBehaviour
     }
     void Update()
     {
-     
+
+        //win = GameObject.Find("Win Label");
+        //Lose = GameObject.Find("Lose Label");
+        //hitted = GameObject.Find("BloodTexture");
+        SetUserName();
+        pv.RPC("SetUserName", PhotonTargets.Others);
 
         if (GameObject.Find("Photon").GetComponent<Gamestart>().RoomMenber == 1)
         {
@@ -136,6 +141,7 @@ public class Playercnt : MonoBehaviour
         {
             if (hitbool == true)
             {
+                hittedaddtime = hittedaddtime + Time.deltaTime;
                 hitted.SetActive(true);
                 if (hittedaddtime >= hittedtimecool)
                 {
@@ -791,11 +797,14 @@ public class Playercnt : MonoBehaviour
     IEnumerator Pick()
     {
         PickUpOn();
+        
         Copyitemname(grounditem[0]);
         Destroy(grounditem[0]);
         grounditem.RemoveAt(0);
         yield return new WaitForSeconds(.5f);
         PickUpoff();
+        //Charidle();
+        
     }
     [PunRPC]
     void PickRPC()
@@ -1146,5 +1155,18 @@ public class Playercnt : MonoBehaviour
     void HittedSound() //피격사운드  ---->   BgmManmeger.Instance.hittedSound();
     {
         BgmManmeger.Instance.HittedSound();
+    }
+    [PunRPC]
+    void SetUserName()
+    {
+#if UNITY_EDITOR
+        {
+            gameObject.name = LoginManager.Instance.ID;
+        }
+#else
+        {
+            gameObject.name = "Enemy";
+        }
+#endif
     }
 }

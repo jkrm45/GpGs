@@ -365,6 +365,7 @@ MonoBehaviour:
   PlayerSound: {fileID: 0}
   Scorepoint: {fileID: 810744332}
   KillLabel: {fileID: 1418029924}
+  IdCheck: {fileID: 0}
   MenuBg: {fileID: 0}
   Myscorebg: {fileID: 389806856}
   SoundOptionbg: {fileID: 1243433913}

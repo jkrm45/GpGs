@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 11400006}
   - component: {fileID: 11400008}
   m_Layer: 0
-  m_Name: Player
+  m_Name: Player2
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2034,9 +2034,9 @@ SkinnedMeshRenderer:
   m_BlendShapeWeights: []
   m_RootBone: {fileID: 0}
   m_AABB:
-    m_Center: {x: 0, y: 0, z: 0}
-    m_Extent: {x: 0, y: 0, z: 0}
-  m_DirtyAABB: 1
+    m_Center: {x: 0.000023570843, y: -0.00012935454, z: -9.313226e-10}
+    m_Extent: {x: 0.009259784, y: 0.0016751785, z: 0.0078301225}
+  m_DirtyAABB: 0
 --- !u!1 &100112
 GameObject:
   m_ObjectHideFlags: 0

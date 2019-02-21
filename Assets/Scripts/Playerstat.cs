@@ -26,17 +26,23 @@ public class Playerstat : MonoBehaviour
         
 
 
-    private void Start()
+    void Start()
     {
         Hpba = GameObject.Find("HpbaBg").GetComponent<UIProgressBar>();
-        boast=GameObject.Find("BoastingBg").GetComponent<UIProgressBar>();
+        boast = GameObject.Find("BoastingBg").GetComponent<UIProgressBar>();
         Fireicon = GameObject.Find("Fireicon");
         PosionIcon = GameObject.Find("Posionicon");
         Slowicon = GameObject.Find("Slowicon");
 
+
     }
-    private void Update()
+    void Update()
     {
+        //Hpba = GameObject.Find("HpbaBg").GetComponent<UIProgressBar>();
+        //boast = GameObject.Find("BoastingBg").GetComponent<UIProgressBar>();
+        //Fireicon = GameObject.Find("Fireicon");
+        //PosionIcon = GameObject.Find("Posionicon");
+        //Slowicon = GameObject.Find("Slowicon");
         Hpba.value = hp / 100;
         boast.value = dothp / 100;
         if (poison)

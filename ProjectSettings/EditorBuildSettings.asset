@@ -7,10 +7,10 @@ EditorBuildSettings:
   m_Scenes:
   - enabled: 0
     path: 
-    guid: 99c9720ab356a0642a771bea13969a05
+    guid: 00000000000000000000000000000000
   - enabled: 0
     path: 
-    guid: 1e7655a17717c2e46851113d769a25fa
+    guid: 00000000000000000000000000000000
   - enabled: 1
     path: Assets/Scenes/IntroUI.unity
     guid: 7ddf825949cbaf44b992c90ba80f797a
@@ -20,4 +20,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/IngameUI.unity
     guid: eed31e6b472d8b3459d23d8a359ddd28
+  - enabled: 0
+    path: Assets/test.unity
+    guid: 3042562abe7c0b9449948a30d781691a
+  - enabled: 0
+    path: Assets/Scenes/SampleScene2.unity
+    guid: fa79b6e4b7b5e2443b5ed079271678a7
   m_configObjects: {}

@@ -15,6 +15,10 @@ public class RoadingScript : MonoBehaviour
     public float Sircletime3;
     public float Sircletime4;
     public float Cool;
+    public GameObject Mapcameracavas;
+    public GameObject player;
+    public GameObject Mapcamera;
+    public GameObject Bulezone;
     // Start is called before the first frame update
     void Start()
     {
@@ -32,7 +36,7 @@ public class RoadingScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Cool = GameObject.Find("BlueZone").GetComponent<Circle>().sirclecooltime;
+  
      
         if (Loading.value <0.5)
         {
@@ -51,25 +55,38 @@ public class RoadingScript : MonoBehaviour
             Loading.value = Loading.value + Time.deltaTime * 0.1f;
             //LoadingTexture.mainTexture = LoadTexture[1];
             LoadingPannel.SetActive(false);
-            GameObject.Find("BlueZone").GetComponent<Circle>().loadbafinish = true;
+            Mapcameracavas.SetActive(true);
+            player = GameObject.FindGameObjectWithTag("Player");
+
+            Bulezone = GameObject.Find("BlueZone");
+            Bulezone.GetComponent<Circle>().loadbafinish = true;
+        }
+        if (player!=null)
+        {
+            Mapcamera.transform.position = new Vector3(player.transform.position.x, player.transform.position.y +80, player.transform.position.z);
         }
 
-        //if (GameObject.Find("BluZone").GetComponent<Circle>().first == true)
-        //{
-        //    ReamainTimeText.text = "" + (int)(Sircletime1 - Cool);
-        //}
-        //if (GameObject.Find("BluZone").GetComponent<Circle>().scond == true)
-        //{
-        //    ReamainTimeText.text = "" + (int)(Sircletime2 - Cool);
-        //}
-        //if (GameObject.Find("BluZone").GetComponent<Circle>().third == true)
-        //{
-        //    ReamainTimeText.text = "" + (int)(Sircletime3 - Cool);
-        //}
-        //if (GameObject.Find("BluZone").GetComponent<Circle>().fourh == true)
-        //{
-        //    ReamainTimeText.text = "" + (int)(Sircletime4 - Cool);
-        //}
+        if (Bulezone != null)
+        {
+            Cool = Bulezone.GetComponent<Circle>().sirclecooltime;
+            if (Bulezone.GetComponent<Circle>().first == true)
+            {
+                ReamainTimeText.text = "" + (int)(Sircletime1 - Cool);
+            }
+            if (Bulezone.GetComponent<Circle>().scond == true)
+            {
+                ReamainTimeText.text = "" + (int)(Sircletime2 - Cool);
+            }
+            if ( Bulezone.GetComponent<Circle>().third == true)
+            {
+                ReamainTimeText.text = "" + (int)(Sircletime3 - Cool);
+            }
+            if (Bulezone.GetComponent<Circle>().fourh == true)
+            {
+                ReamainTimeText.text = "" + (int)(Sircletime4 - Cool);
+            }
+        }
+   
 
 
 

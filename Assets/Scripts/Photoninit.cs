@@ -33,17 +33,7 @@ public class Photoninit : MonoBehaviour
     IEnumerator Createplayer()
     {
         GameObject p = PhotonNetwork.Instantiate("Player", new Vector3(Random.Range(-50, 51), 20, Random.Range(-75, 76)), Quaternion.identity, 0);
-#if UNITY_EDITOR
-        {
-            p.name = "sdsdsd";
-        }
-#endif
 
-#if UNITY_ANDROID
-        {
-            p.name = Social.localUser.userName;
-        }
-#endif
         ready = true;
         yield return null;
     }

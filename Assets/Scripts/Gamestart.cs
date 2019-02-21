@@ -23,21 +23,34 @@ public class Gamestart : MonoBehaviour
     int k;
     public Circle c;
 
+
+    public void UnityGetInfor()
+    {
+        itemlist = File.ReadAllText(Path.Combine(Application.streamingAssetsPath, "itemlist"));
+    }
+
+    public void AndroidGetInfor()
+    {
+        itemlist = File.ReadAllText(Path.Combine(Application.persistentDataPath, "itemlist"));
+
+    }
+
     void Start()
     {
         pv = PhotonView.Get(this);
-#if UNITY_ANDROID
-        {
-            itemlist = File.ReadAllText(Path.Combine(Application.persistentDataPath, "itemlist"));
-        }
-#endif
+
 
 #if UNITY_EDITOR
         {
-
-            itemlist = File.ReadAllText(Path.Combine(Application.streamingAssetsPath, "itemlist"));
+            UnityGetInfor();
         }
-#endif 
+#else
+
+        {
+            AndroidGetInfor();
+        }
+#endif
+
 
     }
 

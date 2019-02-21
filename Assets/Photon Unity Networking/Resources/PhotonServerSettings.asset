@@ -68,4 +68,5 @@ MonoBehaviour:
   - LightingMagicAttackSound
   - SwardAttackSound
   - WalkSound
+  - SetUserName
   DisableAutoOpenWizard: 1

@@ -4,7 +4,7 @@ using UnityEngine;
 using SimpleJSON;
 using System.IO;
 
-public class Inventory : MonoBehaviour 
+public class Inventory : MonoBehaviour
 {
     public string itemlist;
     public Playercnt p;
@@ -27,21 +27,31 @@ public class Inventory : MonoBehaviour
     public UISprite Invensprite;
     public UILabel Contlabel;
 
+    public void UnityGetInfor()
+    {
+        itemlist = File.ReadAllText(Path.Combine(Application.streamingAssetsPath, "itemlist"));
+    }
 
+    public void AndroidGetInfor()
+    {
+        itemlist = File.ReadAllText(Path.Combine(Application.persistentDataPath, "itemlist"));
+
+    }
 
     void Start()
     {
-#if UNITY_ANDROID
-        {
-            itemlist = File.ReadAllText(Path.Combine(Application.persistentDataPath, "itemlist"));
-        }
-#endif
 
 #if UNITY_EDITOR
-        { 
-        itemlist = File.ReadAllText(Path.Combine(Application.streamingAssetsPath, "itemlist"));
-         }
-#endif 
+        {
+            UnityGetInfor();
+        }
+#else
+
+
+        {
+            AndroidGetInfor();
+        }
+#endif
         Invensprite = GameObject.Find("Invensprite").GetComponent<UISprite>();
         Contlabel = GameObject.Find("ContLable").GetComponent<UILabel>();
         weaponlist.Add("dagger");
@@ -63,7 +73,10 @@ public class Inventory : MonoBehaviour
     }
 
      void Update()
+
     {
+        //Invensprite = GameObject.Find("Invensprite").GetComponent<UISprite>();
+        //Contlabel = GameObject.Find("ContLable").GetComponent<UILabel>();
         Contlabel.text = curammo + "/" + remainammoininventory[curslot];
         if (weaponindex[curslot] == 0)
         {

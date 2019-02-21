@@ -13,17 +13,20 @@ public class Btmmanger : MonoBehaviour
     public UILabel Scorepoint;
     public UILabel KillLabel;
 
+    public UILabel IdCheck;
+
 
     public GameObject MenuBg;
     public GameObject Myscorebg;
     public GameObject SoundOptionbg;
+
+   
     // Start is called before the first frame update
     void Start()
     {
         Music = GameObject.FindGameObjectWithTag("Music").GetComponent<AudioSource>();
         EffectMusic = GameObject.FindGameObjectWithTag("IngameSound").GetComponent<AudioSource>();
-       
-          
+
 
         Sound.value = PlayerPrefs.GetFloat("SaveSound");
         EffectSound.value = PlayerPrefs.GetFloat("SaveEffectSound");
@@ -32,7 +35,7 @@ public class Btmmanger : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+       
         if (Application.loadedLevelName == "Menu")
         {
             Music.volume = Sound.value;
