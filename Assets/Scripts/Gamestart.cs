@@ -56,6 +56,7 @@ public class Gamestart : MonoBehaviour
 
     void Update()
     {
+        Debug.Log(RoomMenber);
         if(!GetComponent<Photoninit>().ready)
         {
             return;
@@ -74,6 +75,7 @@ public class Gamestart : MonoBehaviour
                 Itemspawn();
                 c.gamestart = true;
                 PhotonNetwork.room.IsOpen = false;
+                gameObject.GetComponent<RoomMenberCount>().RoomMenber = RoomMenber;            
                 enabled = false;
             }
         }

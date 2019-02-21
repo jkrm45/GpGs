@@ -8,22 +8,15 @@ public class Autofllow : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-       
+        if (player.tag != "Player")
+        {
+            Destroy(gameObject);
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
 
-        if (player != null)
-        {
-     
-            gameObject.transform.position = new Vector3(player.transform.position.x, player.transform.position.y + 75, player.transform.position.z);
-        }
-        if (GameObject.Find("UiManeger").GetComponent<RoadingScript>().Bulezone != null)
-        {
-            gameObject.SetActive(true);
-        }
-      
     }
 }

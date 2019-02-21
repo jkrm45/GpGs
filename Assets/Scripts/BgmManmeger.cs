@@ -32,6 +32,14 @@ public class BgmManmeger : MonoBehaviour
         //->>>>  BgmManmeger.Instance.ActionController = GameObject.FindGameObjectWithTag("Player").GetComponent<AudioSource>();
 
     }
+    void Update()
+    {
+        if (Application.loadedLevelName == "IntroUI")
+        {
+            MusicController.volume = 0;
+            InGameSoundController.volume = 0;
+        }
+    }
 
     public void WalkSound()//이동시 발걸음  ---->   BgmManmeger.Instance.WalkSound();
     {

@@ -14,66 +14,17 @@ public class Playerstat : MonoBehaviour
     public int firestack;
     public bool ice;
     public int icestack;
-    public UIProgressBar Hpba;
-    public UIProgressBar boast;
-    //public GameObject Fire;
-    //public GameObject Posion;
-    //public GameObject slow;
-    public GameObject Fireicon;
-    public GameObject PosionIcon;
-    public GameObject Slowicon;
-   
-        
+    //public bool Wingame;
+
+
+
 
 
     void Start()
     {
-        Hpba = GameObject.Find("HpbaBg").GetComponent<UIProgressBar>();
-        boast = GameObject.Find("BoastingBg").GetComponent<UIProgressBar>();
-        Fireicon = GameObject.Find("Fireicon");
-        PosionIcon = GameObject.Find("Posionicon");
-        Slowicon = GameObject.Find("Slowicon");
+        
 
 
     }
-    void Update()
-    {
-        //Hpba = GameObject.Find("HpbaBg").GetComponent<UIProgressBar>();
-        //boast = GameObject.Find("BoastingBg").GetComponent<UIProgressBar>();
-        //Fireicon = GameObject.Find("Fireicon");
-        //PosionIcon = GameObject.Find("Posionicon");
-        //Slowicon = GameObject.Find("Slowicon");
-        Hpba.value = hp / 100;
-        boast.value = dothp / 100;
-        if (poison)
-        {
-            //Posion.SetActive(true);
-            PosionIcon.SetActive(true);
-        }
-        else
-        {
-            //Posion.SetActive(false);
-            PosionIcon.SetActive(false);
-        }
-        if (fire)
-        {
-            //Fire.SetActive(true);
-            Fireicon.SetActive(true);
-        }
-        else
-        {
-            //Fire.SetActive(false);
-            Fireicon.SetActive(false);
-        }
-        if (ice)
-        {
-            //slow.SetActive(true);
-            Slowicon.SetActive(true);
-        }
-        else
-        {
-            //slow.SetActive(false);
-            Slowicon.SetActive(false);
-        }
-    }
+ 
 }

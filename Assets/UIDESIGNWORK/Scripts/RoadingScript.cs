@@ -56,7 +56,9 @@ public class RoadingScript : MonoBehaviour
             //LoadingTexture.mainTexture = LoadTexture[1];
             LoadingPannel.SetActive(false);
             Mapcameracavas.SetActive(true);
+
             player = GameObject.FindGameObjectWithTag("Player");
+
 
             Bulezone = GameObject.Find("BlueZone");
             Bulezone.GetComponent<Circle>().loadbafinish = true;

@@ -27,6 +27,7 @@ public class Inventory : MonoBehaviour
     public UISprite Invensprite;
     public UILabel Contlabel;
 
+
     public void UnityGetInfor()
     {
         itemlist = File.ReadAllText(Path.Combine(Application.streamingAssetsPath, "itemlist"));
@@ -78,6 +79,7 @@ public class Inventory : MonoBehaviour
         //Invensprite = GameObject.Find("Invensprite").GetComponent<UISprite>();
         //Contlabel = GameObject.Find("ContLable").GetComponent<UILabel>();
         Contlabel.text = curammo + "/" + remainammoininventory[curslot];
+        if (p.pv.isMine) { 
         if (weaponindex[curslot] == 0)
         {
             Invensprite.spriteName = "Knife";
@@ -132,6 +134,7 @@ public class Inventory : MonoBehaviour
         {
             Invensprite.spriteName = "beer";
            
+        }
         }
 
     }
@@ -223,37 +226,40 @@ public class Inventory : MonoBehaviour
                 {
                     if(n!= weaponlist[1]&&n!= weaponlist[2])
                     {
-                        int i = weaponindex[curslot];
+                        int i = 0;
+                        int j = 0;
                         switch (curslot)
                         {   
                             case 1:
                                 Throwitem(1);
                                 Createweapon(1, itemindex, itemstack);
                                 Selectweapon(curslot, weaponindex[curslot]);
+                                i = weaponindex[curslot];
                                 if (i <= 3)
                                 {
-                                    p.Job = 2;
-                                    p.Charidle();
+                                    j = 2;
+                                    StartCoroutine(PII(j));
                                 }
                                 else if (i <= 6)
                                 {
-                                    p.Job = 3;
-                                    p.Charidle();
+                                    j = 3;
+                                    StartCoroutine(PII(j));
                                 }
                                 break;
                             case 2:
                                 Throwitem(2);
                                 Createweapon(2, itemindex, itemstack);
                                 Selectweapon(curslot, weaponindex[curslot]);
+                                i = weaponindex[curslot];
                                 if (i <= 3)
                                 {
                                     p.Job = 2;
-                                    p.Charidle();
+                                    StartCoroutine(PII(j));
                                 }
                                 else if (i <= 6)
                                 {
                                     p.Job = 3;
-                                    p.Charidle();
+                                    StartCoroutine(PII(j));
                                 }
                                 break;
                             default:
@@ -376,4 +382,13 @@ public class Inventory : MonoBehaviour
     {
         remainammoininventory[slot] += ammo;
     }
+
+    IEnumerator PII(int a)
+    {
+        p.Job = a;
+        p.ChangeOn();
+        yield return new WaitForSeconds(0.2f);
+        p.Charidle();
+    }
+
 }

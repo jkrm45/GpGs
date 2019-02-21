@@ -15,7 +15,7 @@ public class Playercnt : MonoBehaviour
     public float spd = 5;
     public float rotspd = 120;
     public Transform t;
-    PhotonView pv;
+   public PhotonView pv;
     Vector3 curpos;
     Quaternion currot;
     public Transform firepos;
@@ -50,32 +50,48 @@ public class Playercnt : MonoBehaviour
     public int Job = 1;
     Vector3 v;
     public List<GameObject> hiteft;
-    public bool Wingame =false;
-    public GameObject hitted;
-    public GameObject win;
-    public GameObject Lose;
+   
+ 
     public bool hitbool=false;
     public float hittedtimecool = 0.5f;
     public float hittedaddtime;
 
-    //public AudioSource ActionController; // 행동소리 컨트롤러
-    //public AudioClip Walk;
-    //public AudioClip SwardAttack;
-    //public AudioClip ArcherAttack;
-    //public AudioClip MagicAttack1;
-    //public AudioClip MagicAttack2;
-    //public AudioClip MagicAttack3;
-    //public AudioClip Dead;
-    //public AudioClip hitted;
+
+    public UIProgressBar Hpba;
+    public UIProgressBar boast;
+
+    public UISprite Fireicon;
+    public UISprite PosionIcon;
+    public UISprite Slowicon;
+    public UITexture hitted;
+    public UILabel win;
+    public UILabel Lose;
+    public UISprite btm;
+    public UILabel btmlabel;
+
+    public string un;
+
+
 
     void Start()
     {
-        win = GameObject.Find("Win Label");
-        Lose = GameObject.Find("Lose Label");
-        hitted = GameObject.Find("BloodTexture");
-        win.SetActive(false);
-        Lose.SetActive(false);
-        hitted.SetActive(false);
+
+        Hpba = GameObject.Find("HpbaBg").GetComponent<UIProgressBar>();
+        boast = GameObject.Find("BoastingBg").GetComponent<UIProgressBar>();
+        Fireicon = GameObject.Find("Fireicon").GetComponent<UISprite>();
+        PosionIcon = GameObject.Find("Posionicon").GetComponent<UISprite>();
+        Slowicon = GameObject.Find("Slowicon").GetComponent<UISprite>();
+        win = GameObject.Find("Win Label").GetComponent<UILabel>();
+        Lose = GameObject.Find("Lose Label").GetComponent<UILabel>();
+        hitted = GameObject.Find("BloodTexture").GetComponent<UITexture>();
+        btm = GameObject.Find("Outbtm").GetComponent<UISprite>();
+        btmlabel= GameObject.Find("OutLabel").GetComponent<UILabel>();
+        win.enabled = false;
+        Lose.enabled = false;
+        hitted.enabled = false;
+        btm.enabled = false;
+        btmlabel.enabled = false;
+
         GameObject.Find("UiManeger").GetComponent<Btmmanger>().PlayerSound= GameObject.FindGameObjectWithTag("Player").GetComponent<AudioSource>();
         //ActionController = GameObject.FindGameObjectWithTag("Player").GetComponent<AudioSource>();
         BgmManmeger.Instance.ActionController = GameObject.FindGameObjectWithTag("Player").GetComponent<AudioSource>();
@@ -118,34 +134,77 @@ public class Playercnt : MonoBehaviour
     void Update()
     {
 
-        //win = GameObject.Find("Win Label");
-        //Lose = GameObject.Find("Lose Label");
-        //hitted = GameObject.Find("BloodTexture");
-        SetUserName();
-        pv.RPC("SetUserName", PhotonTargets.Others);
-
-        if (GameObject.Find("Photon").GetComponent<Gamestart>().RoomMenber == 1)
-        {
-            if (Wingame == true)
-            {
-                win.SetActive(true);
-                LoginManager.Instance.UserScore++;
-                LoginManager.Instance.UserKillnum = LoginManager.Instance.UserKillnum + killscore;
-                LoginManager.Instance.InfoUpdata();
-                Wingame = false;
-            }
-    
-          
-        }
+       
         if (pv.isMine)
         {
+            Setusername();
+            pv.RPC("Setusername", PhotonTargets.Others);
+          
+            if (GameObject.Find("Photon").GetComponent<RoomMenberCount>().RoomMenber == 1 && Hpba.value>0)
+            {
+              
+                if (GameObject.Find("Photon").GetComponent<RoomMenberCount>().Wingame == true
+                   /* GameObject.FindGameObjectWithTag("Player").GetComponent<Playerstat>().Wingame == true*/)
+                {
+                    win.enabled = true;
+                    btm.enabled = true;
+                    btmlabel.enabled = true;
+                    LoginManager.Instance.UserScore++;
+                    LoginManager.Instance.UserKillnum = LoginManager.Instance.UserKillnum + killscore;
+                    LoginManager.Instance.InfoUpdata();
+                    //GameObject.FindGameObjectWithTag("Player").GetComponent<Playerstat>().Wingame  = false;
+                    GameObject.Find("Photon").GetComponent<RoomMenberCount>().Wingame = false;
+                }
+
+
+            }
+
+
+            Hpba.value = GameObject.FindGameObjectWithTag("Player").GetComponent<Playerstat>().hp / 100;
+            if (Hpba.value <= 0) {
+                Lose.enabled = true;
+                btm.enabled = true;
+                btmlabel.enabled = true;
+            }
+            boast.value = GameObject.FindGameObjectWithTag("Player").GetComponent<Playerstat>().dothp / 100;
+            if (GameObject.FindGameObjectWithTag("Player").GetComponent<Playerstat>().poison)
+            {
+                //Posion.SetActive(true);
+                PosionIcon.enabled = true;
+            }
+            else
+            {
+                //Posion.SetActive(false);
+                PosionIcon.enabled = false;
+            }
+            if ( GameObject.FindGameObjectWithTag("Player").GetComponent<Playerstat>().fire)
+            {
+                //Fire.SetActive(true);
+                Fireicon.enabled = true;
+            }
+            else
+            {
+                //Fire.SetActive(false);
+                Fireicon.enabled = false;
+            }
+            if (GameObject.FindGameObjectWithTag("Player").GetComponent<Playerstat>().ice)
+            {
+                //slow.SetActive(true);
+                Slowicon.enabled = true;
+            }
+            else
+            {
+                //slow.SetActive(false);
+                Slowicon.enabled = false;
+            }
+
             if (hitbool == true)
             {
                 hittedaddtime = hittedaddtime + Time.deltaTime;
-                hitted.SetActive(true);
+                hitted.enabled = true;
                 if (hittedaddtime >= hittedtimecool)
                 {
-                    hitted.SetActive(false);
+                    hitted.enabled = false;
                     hittedaddtime = 0;
                     hitbool = false;
                 }
@@ -402,11 +461,15 @@ public class Playercnt : MonoBehaviour
         {
             stream.SendNext(t.position);
             stream.SendNext(t.rotation);
+            stream.SendNext(un);
+            gameObject.name = un;
         }
         else
         {
             curpos = (Vector3)stream.ReceiveNext();
             currot = (Quaternion)stream.ReceiveNext();
+            un = (string)stream.ReceiveNext();
+            gameObject.name = un;
         }
     }
     //발사버튼(onpress)
@@ -428,6 +491,7 @@ public class Playercnt : MonoBehaviour
     //피격처리, 아이템 줍기 준비,자기장 인서클
     void OnTriggerEnter(Collider other)
     {
+        
         if (other.gameObject.tag == "Enemybullet")
         {
             Bulletsort(other.GetComponent<Bulletmoving>().eft);
@@ -504,10 +568,12 @@ public class Playercnt : MonoBehaviour
         if (GetComponent<Playerstat>().hp <= 0)
         {
             DeadOn();
-            yield return new WaitForSeconds(2);
             Creategrave();
+            yield return new WaitForSeconds(2);
+            
            
             GameObject.Find(username).GetComponent<Playercnt>().killscore++;
+
       
      
 
@@ -519,10 +585,27 @@ public class Playercnt : MonoBehaviour
     //피격 프로세스 중 사망시 무덤 생성
     void Creategrave()
     {
-        
-        GameObject.Find("Photon").GetComponent<Gamestart>().RoomMenber--;
+        LoginManager.Instance.UserKillnum = LoginManager.Instance.UserKillnum + killscore;
+        //GameObject.Find("Photon").GetComponent<RoomMenberCount>().RoomMenber--;
+
+        //if (GameObject.Find("Photon").GetComponent<RoomMenberCount>().RoomMenber == 1)
+        //{
+        //    if (pv.isMine)
+        //    {
+        //        GameObject.FindGameObjectWithTag("Player").GetComponent<Playerstat>().Wingame = true;
+        //    }
+
+        //}
+        GameObject.Find("Photon").GetComponent<RoomMenberCount>().Onekill();
+        if (GameObject.Find("Photon").GetComponent<RoomMenberCount>().RoomMenber == 1)
+        {
+
+            GameObject.Find("Photon").GetComponent<RoomMenberCount>().GG();
+            
+        }
+
         int num = 0;
-        Lose.SetActive(true);
+        //Lose.enabled = true;
         LoginManager.Instance.UserKillnum = LoginManager.Instance.UserKillnum + killscore;
         LoginManager.Instance.InfoUpdata();
         List<int> indexlist = new List<int>();
@@ -560,7 +643,7 @@ public class Playercnt : MonoBehaviour
                 gravelist[i].transform.position = gravepos[i];
             }
         }
-        PhotonNetwork.Disconnect();
+        //PhotonNetwork.Disconnect();
     }
     [PunRPC]
     void HitRPC(int dmg, int dmg2, string username)
@@ -797,12 +880,14 @@ public class Playercnt : MonoBehaviour
     IEnumerator Pick()
     {
         PickUpOn();
-        
+        yield return new WaitForSeconds(.1f);
+        PickUpoff();
+        yield return new WaitForSeconds(1);
         Copyitemname(grounditem[0]);
         Destroy(grounditem[0]);
         grounditem.RemoveAt(0);
-        yield return new WaitForSeconds(.5f);
-        PickUpoff();
+        
+      
         //Charidle();
         
     }
@@ -1156,16 +1241,18 @@ public class Playercnt : MonoBehaviour
     {
         BgmManmeger.Instance.HittedSound();
     }
+
+
     [PunRPC]
-    void SetUserName()
+    void Setusername()
     {
 #if UNITY_EDITOR
         {
-            gameObject.name = LoginManager.Instance.ID;
+            un = LoginManager.Instance.ID;
         }
-#else
+#elif UNITY_ANDROID
         {
-            gameObject.name = "Enemy";
+            un = Social.localUser.id;
         }
 #endif
     }

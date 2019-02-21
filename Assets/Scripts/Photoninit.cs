@@ -33,7 +33,7 @@ public class Photoninit : MonoBehaviour
     IEnumerator Createplayer()
     {
         GameObject p = PhotonNetwork.Instantiate("Player", new Vector3(Random.Range(-50, 51), 20, Random.Range(-75, 76)), Quaternion.identity, 0);
-
+      
         ready = true;
         yield return null;
     }

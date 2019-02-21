@@ -114,6 +114,10 @@ public class LoginManager : MonoBehaviour
 
 
         }
+        else
+        {
+            LogText.text = "점검";
+        }
     } //실패시 재로그인
 
     IEnumerator UserChecking()  //아이뒤확인
@@ -160,6 +164,9 @@ public class LoginManager : MonoBehaviour
         if (www.isDone)
         {
             print("아이디 생성완료");
+
+            PlayerPrefs.SetFloat("SaveSound",1);
+            PlayerPrefs.SetFloat("SaveEffectSound",1);
             StartCoroutine(UserChecking());
          
 
@@ -170,6 +177,7 @@ public class LoginManager : MonoBehaviour
         }
 
     }
+
 
     public void InfoUpdata()
     {

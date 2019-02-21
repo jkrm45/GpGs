@@ -39,12 +39,13 @@ public class Btmmanger : MonoBehaviour
         if (Application.loadedLevelName == "Menu")
         {
             Music.volume = Sound.value;
+            EffectMusic.volume = EffectSound.value;
             Scorepoint.text = LoginManager.Instance.UserScore.ToString();
             KillLabel.text = LoginManager.Instance.UserKillnum.ToString();
         }
         if (Application.loadedLevelName == "IngameUI")
         {
-            Music.volume = Sound.value;
+            Music.volume = 0;
             EffectMusic.volume = EffectSound.value;
             if (PlayerSound != null)
             {
@@ -88,6 +89,8 @@ public class Btmmanger : MonoBehaviour
 
     public void GameQuit()
     {
+        LoginManager.Instance.InfoUpdata();
+       
         Application.Quit();
     }
 
@@ -102,6 +105,14 @@ public class Btmmanger : MonoBehaviour
 
     public void GoMenu()
     {
+        GameObject.Find("Photon").GetComponent<RoomMenberCount>().Onekill();
+        if (GameObject.Find("Photon").GetComponent<RoomMenberCount>().RoomMenber == 1)
+        {
+
+            GameObject.Find("Photon").GetComponent<RoomMenberCount>().GG();
+
+        }
+        LoginManager.Instance.InfoUpdata();
         PhotonNetwork.Disconnect();
         Application.LoadLevel(1);
 
