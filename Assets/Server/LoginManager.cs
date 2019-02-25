@@ -166,7 +166,7 @@ public class LoginManager : MonoBehaviour
             print("아이디 생성완료");
 
             PlayerPrefs.SetFloat("SaveSound",1);
-            PlayerPrefs.SetFloat("SaveEffectSound",1);
+      
             StartCoroutine(UserChecking());
          
 

@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class Btmmanger : MonoBehaviour
 {
     public UISlider Sound;
-    public UISlider EffectSound;
+  
     public AudioSource Music;
     public AudioSource EffectMusic;
     public AudioSource PlayerSound;
@@ -20,6 +20,7 @@ public class Btmmanger : MonoBehaviour
     public GameObject Myscorebg;
     public GameObject SoundOptionbg;
 
+
    
     // Start is called before the first frame update
     void Start()
@@ -29,27 +30,28 @@ public class Btmmanger : MonoBehaviour
 
 
         Sound.value = PlayerPrefs.GetFloat("SaveSound");
-        EffectSound.value = PlayerPrefs.GetFloat("SaveEffectSound");
+   
     }
 
     // Update is called once per frame
     void Update()
     {
-       
+
+ 
         if (Application.loadedLevelName == "Menu")
         {
             Music.volume = Sound.value;
-            EffectMusic.volume = EffectSound.value;
+           
             Scorepoint.text = LoginManager.Instance.UserScore.ToString();
             KillLabel.text = LoginManager.Instance.UserKillnum.ToString();
         }
         if (Application.loadedLevelName == "IngameUI")
         {
             Music.volume = 0;
-            EffectMusic.volume = EffectSound.value;
+            EffectMusic.volume = 0.5f;
             if (PlayerSound != null)
             {
-                PlayerSound.volume = EffectSound.value;
+                PlayerSound.volume = 1;
             }
           
         }
@@ -61,7 +63,7 @@ public class Btmmanger : MonoBehaviour
     public void SoundOptionOn()
     {
         Sound.value = PlayerPrefs.GetFloat("SaveSound");
-        EffectSound.value = PlayerPrefs.GetFloat("SaveEffectSound");
+      
         SoundOptionbg.transform.localPosition = new Vector3(-39, 2, 0);
     }
     public void Myscoreoff()
@@ -79,12 +81,12 @@ public class Btmmanger : MonoBehaviour
     public void SoundCancle()
     {
         Sound.value = PlayerPrefs.GetFloat("SaveSound");
-        EffectSound.value = PlayerPrefs.GetFloat("SaveEffectSound");
+    
     }
     public void SoundOk()
     {
         PlayerPrefs.SetFloat("SaveSound", Sound.value);
-        PlayerPrefs.SetFloat("SaveEffectSound", EffectSound.value);
+   
     }
 
     public void GameQuit()
@@ -105,16 +107,17 @@ public class Btmmanger : MonoBehaviour
 
     public void GoMenu()
     {
-        GameObject.Find("Photon").GetComponent<RoomMenberCount>().Onekill();
-        if (GameObject.Find("Photon").GetComponent<RoomMenberCount>().RoomMenber == 1)
-        {
+        StartCoroutine(Gee());
+    }
 
-            GameObject.Find("Photon").GetComponent<RoomMenberCount>().GG();
-
-        }
+    IEnumerator Gee()
+    {
+        GameObject.FindGameObjectWithTag("Player").GetComponent<Playercnt>().isdead =true;
         LoginManager.Instance.InfoUpdata();
+        yield return new WaitForSeconds(0.5f);
         PhotonNetwork.Disconnect();
         Application.LoadLevel(1);
+        yield return null;
 
     }
 

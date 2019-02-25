@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityStandardAssets.Utility;
+using System;
 
 public class Playercnt : MonoBehaviour
 {
@@ -63,7 +64,7 @@ public class Playercnt : MonoBehaviour
     public UISprite Fireicon;
     public UISprite PosionIcon;
     public UISprite Slowicon;
-    public UITexture hitted;
+    public UITexture hitted2;
     public UILabel win;
     public UILabel Lose;
     public UISprite btm;
@@ -71,11 +72,27 @@ public class Playercnt : MonoBehaviour
 
     public string un;
 
+    public GameObject Walk;
+    public GameObject SwardAttack;
+    public GameObject ArcherAttack;
+    public GameObject MagicAttack1;
+    public GameObject MagicAttack2;
+    public GameObject MagicAttack3;
+    public GameObject Dead;
+    public GameObject hitted;
+    public AudioSource ActionController;
+
+    public GameObject a;
+    public GameObject b;
+
+    public bool isdead;
+    public bool ready;
+
 
 
     void Start()
     {
-
+        ActionController = GameObject.FindGameObjectWithTag("Player").GetComponent<AudioSource>();
         Hpba = GameObject.Find("HpbaBg").GetComponent<UIProgressBar>();
         boast = GameObject.Find("BoastingBg").GetComponent<UIProgressBar>();
         Fireicon = GameObject.Find("Fireicon").GetComponent<UISprite>();
@@ -83,12 +100,12 @@ public class Playercnt : MonoBehaviour
         Slowicon = GameObject.Find("Slowicon").GetComponent<UISprite>();
         win = GameObject.Find("Win Label").GetComponent<UILabel>();
         Lose = GameObject.Find("Lose Label").GetComponent<UILabel>();
-        hitted = GameObject.Find("BloodTexture").GetComponent<UITexture>();
+        hitted2 = GameObject.Find("BloodTexture").GetComponent<UITexture>();
         btm = GameObject.Find("Outbtm").GetComponent<UISprite>();
         btmlabel= GameObject.Find("OutLabel").GetComponent<UILabel>();
         win.enabled = false;
         Lose.enabled = false;
-        hitted.enabled = false;
+        hitted2.enabled = false;
         btm.enabled = false;
         btmlabel.enabled = false;
 
@@ -112,12 +129,16 @@ public class Playercnt : MonoBehaviour
         //카메라 할당
         if (pv.isMine)
         {
+
             GameObject.Find("Main Camera").GetComponent<SmoothFollow>().target = t;
             gameObject.tag = "Player";
         }
         else
         {
+            GetComponent<AudioListener>().enabled = false;
             gameObject.tag = "Enemy";
+            a.tag = "a";
+            b.tag = "a";
         }
         //버튼 동적 할당
         fireon = new EventDelegate(this, "Firebtnon");
@@ -134,15 +155,23 @@ public class Playercnt : MonoBehaviour
     void Update()
     {
 
-       
         if (pv.isMine)
         {
+            if (isdead)
+            {
+                pv.RPC("Creategrave", PhotonTargets.Others);
+                Creategrave();
+                isdead = false;
+            }
             Setusername();
             pv.RPC("Setusername", PhotonTargets.Others);
           
-            if (GameObject.Find("Photon").GetComponent<RoomMenberCount>().RoomMenber == 1 && Hpba.value>0)
+            if (GameObject.Find("Photon").GetComponent<RoomMenberCount>().RoomMenber == 1 )
             {
-              
+              if(GetComponent<Playerstat>().hp == 0)
+                {
+                    return;
+                }
                 if (GameObject.Find("Photon").GetComponent<RoomMenberCount>().Wingame == true
                    /* GameObject.FindGameObjectWithTag("Player").GetComponent<Playerstat>().Wingame == true*/)
                 {
@@ -161,7 +190,9 @@ public class Playercnt : MonoBehaviour
 
 
             Hpba.value = GameObject.FindGameObjectWithTag("Player").GetComponent<Playerstat>().hp / 100;
-            if (Hpba.value <= 0) {
+
+            if (Hpba.value <= 0)
+            {
                 Lose.enabled = true;
                 btm.enabled = true;
                 btmlabel.enabled = true;
@@ -201,10 +232,10 @@ public class Playercnt : MonoBehaviour
             if (hitbool == true)
             {
                 hittedaddtime = hittedaddtime + Time.deltaTime;
-                hitted.enabled = true;
+                hitted2.enabled = true;
                 if (hittedaddtime >= hittedtimecool)
                 {
-                    hitted.enabled = false;
+                    hitted2.enabled = false;
                     hittedaddtime = 0;
                     hitbool = false;
                 }
@@ -468,7 +499,7 @@ public class Playercnt : MonoBehaviour
         {
             curpos = (Vector3)stream.ReceiveNext();
             currot = (Quaternion)stream.ReceiveNext();
-            un = (string)stream.ReceiveNext();
+            un = Convert.ToString(stream.ReceiveNext());
             gameObject.name = un;
         }
     }
@@ -491,7 +522,7 @@ public class Playercnt : MonoBehaviour
     //피격처리, 아이템 줍기 준비,자기장 인서클
     void OnTriggerEnter(Collider other)
     {
-        
+
         if (other.gameObject.tag == "Enemybullet")
         {
             Bulletsort(other.GetComponent<Bulletmoving>().eft);
@@ -520,9 +551,34 @@ public class Playercnt : MonoBehaviour
                     dmgtoh = (int)(other.GetComponent<Bulletmoving>().dmg * .4f);
                     break;
             }
-            Hit(dmgtop, dmgtoh, other.GetComponent<Bulletmoving>().master.name);
-           
+            HitRPC(dmgtop, dmgtoh, other.GetComponent<Bulletmoving>().master.name);
+          
             Destroy(other.gameObject);
+        }
+        if (other.gameObject.tag == "a")
+        {
+            int dmgtop = 0;
+            int dmgtoh = 0;
+            switch (GetComponentInChildren<Inventory>().helmetlv)
+            {
+                case 0:
+                    dmgtop = other.GetComponent<Meleeweapon>().master.GetComponentInChildren<Inventory>().curdmg;
+                    break;
+                case 1:
+                    dmgtop = (int)(other.GetComponent<Meleeweapon>().master.GetComponentInChildren<Inventory>().curdmg * .8f);
+                    dmgtoh = (int)(other.GetComponent<Meleeweapon>().master.GetComponentInChildren<Inventory>().curdmg * .2f);
+                    break;
+                case 2:
+                    dmgtop = (int)(other.GetComponent<Meleeweapon>().master.GetComponentInChildren<Inventory>().curdmg * .7f);
+                    dmgtoh = (int)(other.GetComponent<Meleeweapon>().master.GetComponentInChildren<Inventory>().curdmg * .3f);
+                    break;
+                case 3:
+                    dmgtop = (int)(other.GetComponent<Meleeweapon>().master.GetComponentInChildren<Inventory>().curdmg * .6f);
+                    dmgtoh = (int)(other.GetComponent<Meleeweapon>().master.GetComponentInChildren<Inventory>().curdmg * .4f);
+                    break;
+            }
+            HitRPC(dmgtop, dmgtoh, other.GetComponent<Meleeweapon>().master.name);
+            
         }
         if (other.gameObject.tag == "Item")
         {
@@ -544,58 +600,47 @@ public class Playercnt : MonoBehaviour
             ring = true;
         }
     }
-    //피격 프로세스
-    public void Hit(int dmg, int dmg2, string username)
-    {
-        StartCoroutine(Hitbullet(dmg, dmg2, username));
-        pv.RPC("HitRPC", PhotonTargets.Others, dmg, dmg2, username);
-    }
+
+
+
+    //피격 프로세스-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
     IEnumerator Hitbullet(int dmg, int dmg2, string username)
     {
-        hitbool = true;
-        Instantiate(hiteft[0], transform);
-        GetComponent<Playerstat>().hp -= dmg;
-        iv.helmethp -= dmg2;
-        if (iv.helmethp <= 0)
-        {
-            iv.helmetlv = 0;
-            iv.helmethp = 0;
-            for (int i = 0; i < 3; i++)
+   
+            hitbool = true;
+            Instantiate(hiteft[0], transform);
+           GetComponent<Playerstat>().hp -= dmg;
+            iv.helmethp -= dmg2;
+            if (iv.helmethp <= 0)
             {
-                iv.helmetlook[i].SetActive(false);
+                iv.helmetlv = 0;
+                iv.helmethp = 0;
+                for (int i = 0; i < 3; i++)
+                {
+                    iv.helmetlook[i].SetActive(false);
+                }
             }
-        }
-        if (GetComponent<Playerstat>().hp <= 0)
-        {
-            DeadOn();
-            Creategrave();
-            yield return new WaitForSeconds(2);
-            
+            if (GetComponent<Playerstat>().hp <= 0)
+            {
+
+                DeadOn();
+               isdead = true;
+                yield return new WaitForSeconds(2);
+    
+                GameObject.Find(username).GetComponent<Playercnt>().killscore++;
+
+                gameObject.SetActive(false);
            
-            GameObject.Find(username).GetComponent<Playercnt>().killscore++;
-
-      
-     
-
-
-            gameObject.SetActive(false);
-        }
+            }
         yield return null;
     }
     //피격 프로세스 중 사망시 무덤 생성
+    [PunRPC]
     void Creategrave()
     {
-        LoginManager.Instance.UserKillnum = LoginManager.Instance.UserKillnum + killscore;
-        //GameObject.Find("Photon").GetComponent<RoomMenberCount>().RoomMenber--;
-
-        //if (GameObject.Find("Photon").GetComponent<RoomMenberCount>().RoomMenber == 1)
-        //{
-        //    if (pv.isMine)
-        //    {
-        //        GameObject.FindGameObjectWithTag("Player").GetComponent<Playerstat>().Wingame = true;
-        //    }
-
-        //}
+      
         GameObject.Find("Photon").GetComponent<RoomMenberCount>().Onekill();
         if (GameObject.Find("Photon").GetComponent<RoomMenberCount>().RoomMenber == 1)
         {
@@ -605,7 +650,6 @@ public class Playercnt : MonoBehaviour
         }
 
         int num = 0;
-        //Lose.enabled = true;
         LoginManager.Instance.UserKillnum = LoginManager.Instance.UserKillnum + killscore;
         LoginManager.Instance.InfoUpdata();
         List<int> indexlist = new List<int>();
@@ -644,9 +688,9 @@ public class Playercnt : MonoBehaviour
             }
         }
         //PhotonNetwork.Disconnect();
-    }
-    [PunRPC]
-    void HitRPC(int dmg, int dmg2, string username)
+    }//-------------------------------------------------------------------
+    [PunRPC]//------------------------------------------------------------------------------
+    public void HitRPC(int dmg, int dmg2, string username)
     {
         StartCoroutine(Hitbullet(dmg, dmg2, username));
     }
@@ -1061,6 +1105,7 @@ public class Playercnt : MonoBehaviour
     {
         GetComponentInChildren<BoxCollider>().enabled = true;
         GetComponentInChildren<Meleeweapon>().master = gameObject;
+        //GetComponentInChildren<Meleeweapon>().master =GameObject.FindGameObjectWithTag("Player");
     }
     public void Offcol()
     {
@@ -1186,24 +1231,160 @@ public class Playercnt : MonoBehaviour
     {
         AniControll.SetBool("Change", false);
     }
+    //public void WalkSound()//이동시 발걸음  ---->   BgmManmeger.Instance.WalkSound();
+    //{
+    //    ActionController.maxDistance = 10;
+    //    ActionController.clip = Walk;
+    //    ActionController.PlayOneShot(Walk);
+    //}
 
+    //public void SwardAttackSound() //기본칼 , 칼 공격사운드  ---->   BgmManmeger.Instance.SwardAttackSound();
+    //{
+    //    ActionController.maxDistance = 5;
+    //    ActionController.clip = SwardAttack;
+    //    ActionController.PlayOneShot(SwardAttack);
+    //}
+
+    //public void ArcherAttackSound()//홣 공격사운드  ---->   BgmManmeger.Instance.ArcherAttackSound();
+    //{
+    //    ActionController.maxDistance = 5;
+    //    ActionController.clip = ArcherAttack;
+    //    ActionController.PlayOneShot(ArcherAttack);
+    //}
+
+    //public void IceMagicAttackSound() //얼음마법사운드  ---->   BgmManmeger.Instance.IceMagicAttackSound();
+    //{
+    //    ActionController.maxDistance = 20;
+    //    ActionController.clip = MagicAttack2;
+    //    ActionController.PlayOneShot(MagicAttack2);
+    //}
+
+    //public void LightingMagicAttackSound() // 나이트링마법 사운드  ---->   BgmManmeger.Instance.LightingMagicAttackSound() ;
+    //{
+    //    ActionController.maxDistance = 20;
+    //    ActionController.clip = MagicAttack3;
+    //    ActionController.PlayOneShot(MagicAttack3);
+    //}
+
+    //public void FireMagicAttackSound() // 불마법사운드  ---->   BgmManmeger.Instance.FireMagicAttackSound();
+    //{
+    //    ActionController.maxDistance = 20;
+    //    ActionController.clip = MagicAttack1;
+    //    ActionController.PlayOneShot(MagicAttack1);
+    //}
+
+    //public void DeadSound() // 사망사운드  ---->   BgmManmeger.Instance.DeadSound();
+    //{
+    //    ActionController.maxDistance = 0.01f;
+    //    ActionController.clip = Dead;
+    //    ActionController.PlayOneShot(Dead);
+    //}
+
+    //public void HittedSound() //피격사운드  ---->   BgmManmeger.Instance.hittedSound();
+    //{
+    //    ActionController.maxDistance = 0.01f;
+    //    ActionController.clip = hitted;
+    //    ActionController.PlayOneShot(hitted);
+    //}
+    ////void WalkSound()//이동시 발걸음  ---->   BgmManmeger.Instance.WalkSound();
+    ////{
+    ////    BgmManmeger.Instance.WalkSound();
+    ////}
+
+    ////void SwardAttackSound() //기본칼 , 칼 공격사운드  ---->   BgmManmeger.Instance.SwardAttackSound();
+    ////{
+    ////    BgmManmeger.Instance.SwardAttackSound();
+    ////}
+
+    ////void ArcherAttackSound()//홣 공격사운드  ---->   BgmManmeger.Instance.ArcherAttackSound();
+    ////{
+    ////    BgmManmeger.Instance.ArcherAttackSound();
+    ////}
+
+    //void Magicsound()
+    //{
+    //    switch (iv.weaponindex[iv.curslot])
+    //    {
+    //        case 4:
+    //            FireMagicAttackSound();
+    //            break;
+    //        case 5:
+    //            IceMagicAttackSound();
+    //            break;
+    //        case 6:
+    //            LightingMagicAttackSound();
+    //            break;
+    //    }
+    //}
+    //void IceMagicAttackSound() //얼음마법사운드  ---->   BgmManmeger.Instance.IceMagicAttackSound();
+    //{
+    //    BgmManmeger.Instance.IceMagicAttackSound();
+    //}
+
+    //void LightingMagicAttackSound() // 나이트링마법 사운드  ---->   BgmManmeger.Instance.LightingMagicAttackSound() ;
+    //{
+    //    BgmManmeger.Instance.LightingMagicAttackSound();
+    //}
+
+    //void FireMagicAttackSound() // 불마법사운드  ---->   BgmManmeger.Instance.FireMagicAttackSound();
+    //{
+    //    BgmManmeger.Instance.FireMagicAttackSound();
+    //}
+
+    //void DeadSound() // 사망사운드  ---->   BgmManmeger.Instance.DeadSound();
+    //{
+    //    BgmManmeger.Instance.DeadSound();
+    //}
+    //[PunRPC]
+    //void HittedSound() //피격사운드  ---->   BgmManmeger.Instance.hittedSound();
+    //{
+    //    BgmManmeger.Instance.HittedSound();
+    //}
     void WalkSound()//이동시 발걸음  ---->   BgmManmeger.Instance.WalkSound();
     {
-        BgmManmeger.Instance.WalkSound();
+        if (pv.isMine)
+        {
+            Inswalk();
+            pv.RPC("Inswalk", PhotonTargets.Others);
+        }
+    }
+    [PunRPC]
+    void Inswalk()
+    {
+        Instantiate(Walk, transform.position, transform.rotation);
     }
 
     void SwardAttackSound() //기본칼 , 칼 공격사운드  ---->   BgmManmeger.Instance.SwardAttackSound();
     {
-        BgmManmeger.Instance.SwardAttackSound();
+        if (pv.isMine)
+        {
+            Inssward();
+            pv.RPC("Inssward", PhotonTargets.Others);
+        }
+    }
+    [PunRPC]
+    void Inssward()
+    {
+        Instantiate(SwardAttack, transform.position, transform.rotation);
     }
 
     void ArcherAttackSound()//홣 공격사운드  ---->   BgmManmeger.Instance.ArcherAttackSound();
     {
-        BgmManmeger.Instance.ArcherAttackSound();
+        if (pv.isMine)
+        {
+            Insarc();
+            pv.RPC("Insarc", PhotonTargets.Others);
+        }
+    }
+    [PunRPC]
+    void Insarc()
+    {
+        Instantiate(ArcherAttack, transform.position, transform.rotation);
     }
 
     void Magicsound()
     {
+
         switch (iv.weaponindex[iv.curslot])
         {
             case 4:
@@ -1216,30 +1397,92 @@ public class Playercnt : MonoBehaviour
                 LightingMagicAttackSound();
                 break;
         }
+
     }
     void IceMagicAttackSound() //얼음마법사운드  ---->   BgmManmeger.Instance.IceMagicAttackSound();
     {
-        BgmManmeger.Instance.IceMagicAttackSound();
+        if (pv.isMine)
+        {
+            Insice();
+            pv.RPC("Insice", PhotonTargets.Others);
+        }
     }
-
+    [PunRPC]
+    void Insice()
+    {
+        Instantiate(MagicAttack2, transform.position, transform.rotation);
+    }
     void LightingMagicAttackSound() // 나이트링마법 사운드  ---->   BgmManmeger.Instance.LightingMagicAttackSound() ;
     {
-        BgmManmeger.Instance.LightingMagicAttackSound();
+        if (pv.isMine)
+        {
+            Inslit();
+            pv.RPC("Inslit", PhotonTargets.Others);
+        }
     }
+    [PunRPC]
+    void Inslit()
+    {
+        Instantiate(MagicAttack3, transform.position, transform.rotation);
+    }
+
+
 
     void FireMagicAttackSound() // 불마법사운드  ---->   BgmManmeger.Instance.FireMagicAttackSound();
     {
-        BgmManmeger.Instance.FireMagicAttackSound();
+        if (pv.isMine)
+        {
+            Insfir();
+            pv.RPC("Insfir", PhotonTargets.Others);
+        }
     }
+    [PunRPC]
+    void Insfir()
+    {
+        Instantiate(MagicAttack1, transform.position, transform.rotation);
+    }
+
+
 
     void DeadSound() // 사망사운드  ---->   BgmManmeger.Instance.DeadSound();
     {
-        BgmManmeger.Instance.DeadSound();
+        if (pv.isMine)
+        {
+            Insdead();
+            pv.RPC("Insdead", PhotonTargets.Others);
+        }
     }
     [PunRPC]
+    void Insdead()
+    {
+        Instantiate(Dead, transform.position, transform.rotation);
+    }
+
+
+
     void HittedSound() //피격사운드  ---->   BgmManmeger.Instance.hittedSound();
     {
-        BgmManmeger.Instance.HittedSound();
+        if (pv.isMine)
+        {
+            Inshit();
+            pv.RPC("Inshit", PhotonTargets.Others);
+        }
+    }
+    [PunRPC]
+    void Inshit()
+    {
+        Instantiate(hitted, transform.position, transform.rotation);
+    }
+
+    [PunRPC]
+    public void ddsd()
+    {
+        ready = true;
+    }
+
+    public void dddd()
+    {
+        pv.RPC("ddsd", PhotonTargets.Others);
     }
 
 

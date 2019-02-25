@@ -26,6 +26,13 @@ TagManager:
   - Playerbullet
   - item
   - Ring
+  - Music
+  - IngameSound
+  - FxTemporaire
+  - Posion
+  - arrow
+  - deadboy
+  - a
   layers:
   - Default
   - TransparentFX

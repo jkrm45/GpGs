@@ -118,7 +118,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 2.24, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &74110901306658650
 PrefabInstance:
@@ -130,6 +130,10 @@ PrefabInstance:
     - target: {fileID: 68802160, guid: cae23600aed20854289b4ce2063c234a, type: 3}
       propertyPath: m_Name
       value: icebalt
+      objectReference: {fileID: 0}
+    - target: {fileID: 68802160, guid: cae23600aed20854289b4ce2063c234a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 68802163, guid: cae23600aed20854289b4ce2063c234a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -377,6 +381,11 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 1.5
       objectReference: {fileID: 0}
+    - target: {fileID: 938423849493287624, guid: db5ad056ee05b884e9c4a1e8d582c714,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: db5ad056ee05b884e9c4a1e8d582c714, type: 3}
 --- !u!1 &7648700760462669031 stripped
@@ -475,6 +484,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: LightningEffect
+      objectReference: {fileID: 0}
+    - target: {fileID: 3084748466009787602, guid: 08dafeec3e4344c4bb5a550e33be16ad,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3084748466009787630, guid: 08dafeec3e4344c4bb5a550e33be16ad,
         type: 3}

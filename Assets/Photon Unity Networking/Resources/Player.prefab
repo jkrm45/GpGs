@@ -2385,7 +2385,6 @@ MonoBehaviour:
   - {fileID: 5809533233194827709, guid: 3f898339029fd5c468336c1aa0cf2adf, type: 3}
   - {fileID: 135181769, guid: b369c3af8f2f24a4a9791fddb9230a76, type: 3}
   - {fileID: 1657012044, guid: cecf52d99bb83164f98e6202c508477d, type: 3}
-  Wingame: 0
   hitbool: 0
   hittedtimecool: 0.3
   hittedaddtime: 0
@@ -2394,10 +2393,28 @@ MonoBehaviour:
   Fireicon: {fileID: 0}
   PosionIcon: {fileID: 0}
   Slowicon: {fileID: 0}
-  hitted: {fileID: 0}
+  hitted2: {fileID: 0}
   win: {fileID: 0}
   Lose: {fileID: 0}
+  btm: {fileID: 0}
+  btmlabel: {fileID: 0}
   un: 
+  Walk: {fileID: 7774939303472279425, guid: 770c193a366f89a439d2c29eb74bd695, type: 3}
+  SwardAttack: {fileID: 1748348716786172458, guid: 8842ec32ba431584bbf599428726ba1d,
+    type: 3}
+  ArcherAttack: {fileID: 1722923020459132806, guid: 04c39d7e016f05040893776ec813d1ac,
+    type: 3}
+  MagicAttack1: {fileID: 6290494991183032972, guid: 2e7805b63279a404485fa3cab5bdc108,
+    type: 3}
+  MagicAttack2: {fileID: 316402412666564649, guid: 753c18ab2b912d34d919177fb4f7aeda,
+    type: 3}
+  MagicAttack3: {fileID: 2098013304488481313, guid: a0d2a874562fa7c4ab4fda3d9d24319b,
+    type: 3}
+  Dead: {fileID: 5406343939879805600, guid: 9eded1a640c2bc0498f5cecdbf82ba5b, type: 3}
+  hitted: {fileID: 5488186739052902406, guid: 9eb1ae0e319ae6944a22195bed27e61c, type: 3}
+  ActionController: {fileID: 0}
+  a: {fileID: 7016380387813305636}
+  b: {fileID: 6486061804587085543}
 --- !u!114 &6740561111458810003
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using System;
 public class Circle : MonoBehaviour
 {
     public GameObject circle;
@@ -53,8 +53,8 @@ public class Circle : MonoBehaviour
     void Newposion()
     {
         float range = (circle.transform.localScale.x - circle2.transform.localScale.x) / 2 * 1250;
-        float radius = Random.Range(0, range);
-        float rad = Random.Range(0, Mathf.PI * 2);
+        float radius = UnityEngine.Random.Range(0, range);
+        float rad = UnityEngine.Random.Range(0, Mathf.PI * 2);
         float newx = radius * Mathf.Cos(rad);
         float newy = radius * Mathf.Sin(rad);
         circle2.transform.position = circle.transform.position + new Vector3(newx, 0, newy);
@@ -123,7 +123,7 @@ public class Circle : MonoBehaviour
         gotonext = false;
         if (circle.transform.localScale.x <= 0.11)
         {
-            Debug.Log("!!!");
+
             circle2 = GameObject.Find("DamageZone2");
             Newposion();
             first = false;
@@ -156,7 +156,7 @@ public class Circle : MonoBehaviour
         }
         else
         {
-            gamestart = (bool)stream.ReceiveNext();
+            gamestart = Convert.ToBoolean(stream.ReceiveNext());
             sirclecooltime = (float)stream.ReceiveNext();
             circle.transform.position = (Vector3)stream.ReceiveNext();
             circle2.transform.position = (Vector3)stream.ReceiveNext();

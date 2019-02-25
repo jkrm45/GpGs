@@ -19,9 +19,15 @@ public class RoadingScript : MonoBehaviour
     public GameObject player;
     public GameObject Mapcamera;
     public GameObject Bulezone;
+    public float t;
+    public float tcool;
+    public bool z;
+
+    public GameObject[] readytostart;
     // Start is called before the first frame update
     void Start()
     {
+        readytostart = new GameObject[20];
         StartCoroutine(ChangeText());
         //if (RandomTexture() == 0)
         //{
@@ -44,13 +50,26 @@ public class RoadingScript : MonoBehaviour
             LoadingTexture.mainTexture = LoadTexture[0];
             //LoadingPannel.SetActive(false);
         }
-        if (Loading.value >= 0.5 && Loading.value < 1 && GameObject.Find("Photon").GetComponent<Gamestart>().minpnum<=PhotonNetwork.room.playerCount)
+        if (Loading.value >= 0.5 && Loading.value <=0.95f&& GameObject.Find("Photon").GetComponent<Gamestart>().minpnum<=PhotonNetwork.room.playerCount)
         {
             Loading.value = Loading.value + Time.deltaTime * 0.1f;
             LoadingTexture.mainTexture = LoadTexture[1];
             //LoadingPannel.SetActive(false);
         }
-        if (Loading.value == 1)
+        if (Loading.value >= 0.95 && Loading.value < 0.97)
+        {
+            GameObject.FindGameObjectWithTag("Player").GetComponent<Playercnt>().dddd();
+            t += Time.deltaTime;
+            if (t >= 1 && z==true)
+            {
+                Stillwating();
+                t = 0;
+            }
+
+
+
+        }
+        if (Loading.value >= 0.98 && Loading.value<=1)
         {
             Loading.value = Loading.value + Time.deltaTime * 0.1f;
             //LoadingTexture.mainTexture = LoadTexture[1];
@@ -128,5 +147,28 @@ public class RoadingScript : MonoBehaviour
         int v;
         v = Random.Range(0, 2);
         return v;
+    }
+
+    void Stillwating()
+    {
+
+        
+        for (int i = 0; i < readytostart.Length; i++)
+        {
+            if (!readytostart[i].GetComponent<Playercnt>().ready)
+            {
+                continue;
+            }
+            else
+            {
+                Loading.value = 1;
+            }
+        }
+    }
+
+    public void ddxxx()
+    {
+        readytostart = (GameObject[])GameObject.FindGameObjectsWithTag("Enemy").Clone();
+        z = true;
     }
 }

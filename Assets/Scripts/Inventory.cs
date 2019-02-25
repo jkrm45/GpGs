@@ -78,8 +78,10 @@ public class Inventory : MonoBehaviour
     {
         //Invensprite = GameObject.Find("Invensprite").GetComponent<UISprite>();
         //Contlabel = GameObject.Find("ContLable").GetComponent<UILabel>();
-        Contlabel.text = curammo + "/" + remainammoininventory[curslot];
-        if (p.pv.isMine) { 
+        //Contlabel.text = curammo + "/" + remainammoininventory[curslot];
+        if (p.pv.isMine)
+        { 
+         Contlabel.text = curammo + "/" + remainammoininventory[curslot];
         if (weaponindex[curslot] == 0)
         {
             Invensprite.spriteName = "Knife";

@@ -22,6 +22,7 @@ public class Gamestart : MonoBehaviour
     public int RoomMenber;
     int k;
     public Circle c;
+    public GameObject xx;
 
 
     public void UnityGetInfor()
@@ -75,7 +76,9 @@ public class Gamestart : MonoBehaviour
                 Itemspawn();
                 c.gamestart = true;
                 PhotonNetwork.room.IsOpen = false;
-                gameObject.GetComponent<RoomMenberCount>().RoomMenber = RoomMenber;            
+                gameObject.GetComponent<RoomMenberCount>().RoomMenber = RoomMenber;
+                xx.GetComponent<RoadingScript>().ddxxx();
+                
                 enabled = false;
             }
         }

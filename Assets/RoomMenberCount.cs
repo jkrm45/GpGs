@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class RoomMenberCount : MonoBehaviour
 {
@@ -22,8 +23,8 @@ public class RoomMenberCount : MonoBehaviour
         }
         else
         {
-            Wingame = (bool)stream.ReceiveNext();
-            RoomMenber = (int)stream.ReceiveNext();
+            Wingame = Convert.ToBoolean(stream.ReceiveNext());
+            RoomMenber = Convert.ToInt32(stream.ReceiveNext());
         }
     }
     public void GG()
@@ -39,7 +40,7 @@ public class RoomMenberCount : MonoBehaviour
     public void Onekill()
     {
         Diep();
-        GetComponent<PhotonView>().RPC("Diep", PhotonTargets.Others);
+        //GetComponent<PhotonView>().RPC("Diep", PhotonTargets.Others);
     }
     [PunRPC]
     void Diep()

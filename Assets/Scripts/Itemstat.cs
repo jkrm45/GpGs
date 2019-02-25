@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class Itemstat : MonoBehaviour
 {
@@ -49,8 +50,8 @@ public class Itemstat : MonoBehaviour
         }
         else
         {
-            index = (int)stream.ReceiveNext();
-            bullet = (int)stream.ReceiveNext();
+            index = Convert.ToInt32(stream.ReceiveNext());
+            bullet = Convert.ToInt32(stream.ReceiveNext());
         }
         Decidelook();
     }

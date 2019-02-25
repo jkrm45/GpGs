@@ -5,10 +5,17 @@ using UnityEngine;
 public class Meleeweapon : MonoBehaviour
 {   
     public GameObject master;
+ 
+
+   void Start()
+    {
+       
+        
+    }
 
     public void OnTriggerEnter(Collider other)
     {
-        print(other.gameObject.tag);
+        
         if (other.gameObject.tag == "Enemy")
         {
             int dmgtop = 0;
@@ -31,7 +38,8 @@ public class Meleeweapon : MonoBehaviour
                     dmgtoh = (int)(master.GetComponentInChildren<Inventory>().curdmg * .4f);
                     break;
             }
-            other.GetComponent<Playercnt>().Hit(dmgtop, dmgtoh, master.name);
+            other.GetComponent<Playercnt>().HitRPC(dmgtop, dmgtoh, master.name);
+     
         }
     }
 }

@@ -28,48 +28,46 @@ MonoBehaviour:
   NetworkLogging: 1
   RunInBackground: 1
   RpcList:
-  - Chat
-  - ColorRpc
-  - DestroyRpc
-  - DoJump
-  - Flash
-  - InstantiateRpc
-  - Marco
-  - PickupItemInit
-  - Polo
-  - PunPickup
-  - PunPickupSimple
-  - PunRespawn
-  - RequestForPickupItems
-  - RequestForPickupTimes
-  - TaggedPlayer
   - CdRPC
+  - Chat
+  - CmRPC
+  - ColorRpc
+  - Creategrave
+  - DestroyRpc
   - DhRPC
+  - Diep
+  - DoJump
   - FingRPC
   - FireRPC
+  - Flash
   - FwRPC
   - HealingRPC
   - HitRPC
   - IingRPC
-  - PickRPC
-  - PoingRPC
-  - SortingRPC
-  - TemRPC
-  - Is
-  - Randomitem
-  - RingRPC
-  - Newposion
-  - CmRPC
-  - ArcherAttackSound
-  - DeadSound
-  - FireMagicAttackSound
-  - HittedSound
-  - IceMagicAttackSound
-  - LightingMagicAttackSound
-  - SwardAttackSound
-  - WalkSound
-  - SetUserName
-  - Setusername
-  - Diep
+  - Insarc
+  - Insdead
+  - Insfir
+  - Inshit
+  - Insice
+  - Inslit
+  - Inssward
+  - InstantiateRpc
+  - Inswalk
   - Knowwin
+  - Marco
+  - PickRPC
+  - PickupItemInit
+  - PoingRPC
+  - Polo
+  - PunPickup
+  - PunPickupSimple
+  - PunRespawn
+  - Randomitem
+  - RequestForPickupItems
+  - RequestForPickupTimes
+  - RingRPC
+  - Setusername
+  - SortingRPC
+  - TaggedPlayer
+  - ddsd
   DisableAutoOpenWizard: 1
